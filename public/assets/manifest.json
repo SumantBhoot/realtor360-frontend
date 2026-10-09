@@ -1,0 +1,292 @@
+[
+  {
+    "file": "logo.svg",
+    "figmaLayer": "Logo",
+    "viewBox": [
+      26,
+      17,
+      140,
+      30
+    ]
+  },
+  {
+    "file": "stat-listing.svg",
+    "figmaLayer": "Frame 9144",
+    "viewBox": [
+      39,
+      95,
+      38,
+      38
+    ]
+  },
+  {
+    "file": "stat-leads.svg",
+    "figmaLayer": "Frame 9142",
+    "viewBox": [
+      314,
+      95,
+      38,
+      38
+    ]
+  },
+  {
+    "file": "stat-closed.svg",
+    "figmaLayer": "Frame 9146",
+    "viewBox": [
+      589,
+      95,
+      38,
+      38
+    ]
+  },
+  {
+    "file": "stat-revenue.svg",
+    "figmaLayer": "Frame 9148",
+    "viewBox": [
+      864,
+      95,
+      38,
+      38
+    ]
+  },
+  {
+    "file": "profile.svg",
+    "figmaLayer": "User profile",
+    "viewBox": [
+      1355,
+      15,
+      35,
+      35
+    ]
+  },
+  {
+    "file": "lead-one.svg",
+    "figmaLayer": "Ellipse 261",
+    "viewBox": [
+      481,
+      974,
+      30,
+      30
+    ]
+  },
+  {
+    "file": "lead-two.svg",
+    "figmaLayer": "Ellipse 262",
+    "viewBox": [
+      501,
+      974,
+      30,
+      30
+    ]
+  },
+  {
+    "file": "reminder-one.svg",
+    "figmaLayer": "Ellipse 261_5",
+    "viewBox": [
+      1150,
+      186,
+      20,
+      20
+    ]
+  },
+  {
+    "file": "reminder-two.svg",
+    "figmaLayer": "Ellipse 262_5",
+    "viewBox": [
+      1160,
+      186,
+      20,
+      20
+    ]
+  },
+  {
+    "file": "reminder-three.svg",
+    "figmaLayer": "Ellipse 263",
+    "viewBox": [
+      1170,
+      186,
+      20,
+      20
+    ]
+  },
+  {
+    "file": "reminder-four.svg",
+    "figmaLayer": "Ellipse 264",
+    "viewBox": [
+      1180,
+      186,
+      20,
+      20
+    ]
+  },
+  {
+    "file": "contact-john.svg",
+    "figmaLayer": "Ellipse 256",
+    "viewBox": [
+      871,
+      931,
+      35,
+      35
+    ]
+  },
+  {
+    "file": "contact-jessica.svg",
+    "figmaLayer": "Ellipse 257",
+    "viewBox": [
+      871,
+      977,
+      35,
+      35
+    ]
+  },
+  {
+    "file": "contact-evan.svg",
+    "figmaLayer": "Ellipse 258",
+    "viewBox": [
+      871,
+      1023,
+      35,
+      35
+    ]
+  },
+  {
+    "file": "contact-jack.svg",
+    "figmaLayer": "Ellipse 259",
+    "viewBox": [
+      871,
+      1069,
+      35,
+      35
+    ]
+  },
+  {
+    "file": "contact-emily.svg",
+    "figmaLayer": "Ellipse 260",
+    "viewBox": [
+      871,
+      1115,
+      35,
+      35
+    ]
+  },
+  {
+    "file": "property-maplewood.svg",
+    "figmaLayer": "Rectangle 34625398",
+    "viewBox": [
+      58,
+      974,
+      30,
+      30
+    ]
+  },
+  {
+    "file": "property-serenity.svg",
+    "figmaLayer": "Rectangle 34625399",
+    "viewBox": [
+      58,
+      1014,
+      30,
+      30
+    ]
+  },
+  {
+    "file": "property-rosehill.svg",
+    "figmaLayer": "Rectangle 34625400",
+    "viewBox": [
+      58,
+      1054,
+      30,
+      30
+    ]
+  },
+  {
+    "file": "property-skyline.svg",
+    "figmaLayer": "Rectangle 34625401",
+    "viewBox": [
+      58,
+      1094,
+      30,
+      30
+    ]
+  },
+  {
+    "file": "lead-source.svg",
+    "figmaLayer": "charts",
+    "viewBox": [
+      146,
+      262,
+      290,
+      230
+    ]
+  },
+  {
+    "file": "stage-bars.svg",
+    "figmaLayer": "bars",
+    "viewBox": [
+      644,
+      253,
+      392,
+      149
+    ]
+  },
+  {
+    "file": "sales-bars.svg",
+    "figmaLayer": "Frame 9089",
+    "viewBox": [
+      74,
+      587,
+      450,
+      75
+    ]
+  },
+  {
+    "file": "search.svg",
+    "figmaLayer": "Search",
+    "viewBox": [
+      1295,
+      20,
+      24,
+      24
+    ]
+  },
+  {
+    "file": "call.svg",
+    "figmaLayer": "Call",
+    "viewBox": [
+      1076,
+      941,
+      14,
+      14
+    ]
+  },
+  {
+    "file": "arrow-left.svg",
+    "figmaLayer": "Keyboard arrow left",
+    "viewBox": [
+      1324,
+      486,
+      28,
+      28
+    ]
+  },
+  {
+    "file": "arrow-right.svg",
+    "figmaLayer": "Keyboard arrow right",
+    "viewBox": [
+      1376,
+      486,
+      28,
+      28
+    ]
+  },
+  {
+    "file": "arrow-down.svg",
+    "figmaLayer": "Arrow drop down",
+    "viewBox": [
+      1395,
+      20,
+      20,
+      24
+    ]
+  }
+]
