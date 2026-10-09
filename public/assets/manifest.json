@@ -288,5 +288,82 @@
       20,
       24
     ]
+  },
+  {
+    "file": "contacts-add.svg",
+    "figmaLayer": "Add",
+    "figmaNode": "28:430",
+    "viewBox": [
+      341,
+      140,
+      14,
+      14
+    ]
+  },
+  {
+    "file": "contacts-search-small.svg",
+    "figmaLayer": "Search",
+    "figmaNode": "28:430",
+    "viewBox": [
+      255,
+      135,
+      16,
+      16
+    ]
+  },
+  {
+    "file": "contacts-search.svg",
+    "figmaLayer": "Search_3",
+    "figmaNode": "28:430",
+    "viewBox": [
+      1228,
+      134,
+      24,
+      24
+    ]
+  },
+  {
+    "file": "contacts-grid.svg",
+    "figmaLayer": "Frame_2",
+    "figmaNode": "28:430",
+    "viewBox": [
+      1280,
+      137,
+      20,
+      20
+    ]
+  },
+  {
+    "file": "contacts-dropdown.svg",
+    "figmaLayer": "Arrow drop down_2",
+    "figmaNode": "28:430",
+    "viewBox": [
+      1305,
+      138,
+      16,
+      16
+    ]
+  },
+  {
+    "file": "contacts-prev.svg",
+    "figmaLayer": "Keyboard arrow left",
+    "figmaNode": "28:430",
+    "viewBox": [
+      684,
+      1088,
+      16,
+      16
+    ]
+  },
+  {
+    "file": "contacts-next.svg",
+    "figmaLayer": "Keyboard arrow right",
+    "figmaNode": "28:430",
+    "viewBox": [
+      886,
+      1088,
+      16,
+      16
+    ]
   }
 ]

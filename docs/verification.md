@@ -42,6 +42,21 @@ Desktop and mobile screenshots: [desktop](desktop-preview.jpg), [mobile](mobile-
 - Mobile navigation exposes all primary destinations and closes when a destination is chosen.
 - At 320 px, 390 px, and 768 px viewport widths, the document has no horizontal overflow. The listings table scrolls independently inside its card.
 
-## Limits
+## Contacts screen
+
+Reference: node `28:430`, 1440 × 1144, measured using view-only PNG/SVG exports.
+
+The browser matches the 296 px sidebar, toolbar at y=65 with height 111, table header at (334,197) with dimensions 1081 × 49, first row height 95, and seven subsequent rows of height 91. Row boundaries are y=341,432,523,614,705,796,887,978. Filter buttons start at (22,966), width 252. Pagination sits at y=1083. All images and local fonts loaded, with no console warnings or errors.
+
+- Searching Ananya returns two records; Active returns four; Active plus Buyer returns one (Ananya Verma). Reset restores all eight.
+- Global search for Ravi returns two records. Sorting Contact Name orders Ananya, Emily, John, Ravi.
+- Table/card switching, contact detail dialogs, pagination empty states, and return to page 1 work.
+- The creation form rejects an empty required name. A QA contact created on an isolated localhost origin persisted after reload and matched combined Pune/Referral filters. No backend service is used.
+- Home/Contacts navigation and reloading the Contacts route work.
+- At 320, 390, and 768 px viewport widths, the document has no horizontal overflow. The table scrolls independently. Mobile filters open, apply Buyer (three matches), reset, and dismiss with Escape.
+
+Screenshot: [Contacts desktop](contacts-preview.jpg).
+
+## Fidelity limits
 
 This is a close visual reproduction, not a claim of zero pixel difference. Browser font rasterization, font version metrics, and a few text/chart positions may differ from Figma. Mobile and tablet layouts are adaptations rather than supplied design variants. Filtered chart series are demo values inferred from the static artwork; they are not a backend dataset.

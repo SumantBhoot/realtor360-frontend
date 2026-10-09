@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
+import ContactsView from "./ContactsView";
 import {
   contacts,
   developments,
@@ -467,6 +468,21 @@ function Calendar({
 }
 
 export default function App() {
+  const [activeView, setActiveView] = useState<"Home" | "Contacts">(() =>
+    window.location.hash === "#/contacts" ? "Contacts" : "Home",
+  );
+  useEffect(() => {
+    const syncRoute = () => {
+      if (window.location.hash === "#/contacts") setActiveView("Contacts");
+      else if (window.location.hash === "#/home" || !window.location.hash)
+        setActiveView("Home");
+    };
+    window.addEventListener("hashchange", syncRoute);
+    return () => window.removeEventListener("hashchange", syncRoute);
+  }, []);
+  useEffect(() => {
+    document.title = `Realtor360 | ${activeView}`;
+  }, [activeView]);
   const [query, setQuery] = useState("");
   const [development, setDevelopment] = useState<string | null>(null);
   const [modal, setModal] = useState<ModalContent | null>(null);
@@ -573,7 +589,17 @@ export default function App() {
     "Reports",
   ];
   const openModule = (name: string) => {
+    if (name === "Contacts") {
+      setActiveView("Contacts");
+      window.location.hash = "/contacts";
+      setQuery("");
+      setMenu(null);
+      window.scrollTo({ top: 0 });
+      return;
+    }
     if (name === "Home") {
+      setActiveView("Home");
+      window.location.hash = "/home";
       setQuery("");
       setDevelopment(null);
       setMenu(null);
@@ -581,14 +607,18 @@ export default function App() {
       return;
     }
     if (["Buildings", "Units"].includes(name)) {
+      setActiveView("Home");
+      window.location.hash = "/home";
       setQuery(name === "Units" ? "Apartment" : "");
       setMenu(null);
-      document
-        .getElementById("listings")
-        ?.scrollIntoView({ behavior: "smooth", block: "center" });
+      requestAnimationFrame(() =>
+        document
+          .getElementById("listings")
+          ?.scrollIntoView({ behavior: "smooth", block: "center" }),
+      );
       return;
     }
-    if (["Contacts", "Leads"].includes(name)) {
+    if (name === "Leads") {
       inspect(
         name,
         <div className="dialog-contact-list">
@@ -652,10 +682,16 @@ export default function App() {
     setSort({ key, ascending: sort?.key === key ? !sort.ascending : true });
   return (
     <>
-      <a className="skip-link" href="#dashboard">
-        Skip to dashboard
+      <a
+        className="skip-link"
+        href={activeView === "Contacts" ? "#contacts-content" : "#dashboard"}
+      >
+        Skip to {activeView === "Contacts" ? "contacts" : "dashboard"}
       </a>
-      <header className="topbar" ref={menuRef}>
+      <header
+        className={`topbar ${activeView === "Contacts" ? "contacts-topbar" : ""}`}
+        ref={menuRef}
+      >
         <button
           className="brand"
           aria-label="Realtor360 home"
@@ -667,8 +703,8 @@ export default function App() {
           {nav.map((n) => (
             <button
               key={n}
-              className={n === "Home" ? "active" : ""}
-              aria-current={n === "Home" ? "page" : undefined}
+              className={n === activeView ? "active" : ""}
+              aria-current={n === activeView ? "page" : undefined}
               onClick={() => openModule(n)}
             >
               {n}
@@ -769,338 +805,347 @@ export default function App() {
           </nav>
         )}
       </header>
-      <main id="dashboard" className="dashboard">
-        <h1 className="sr-only">Realtor360 real estate dashboard</h1>
-        <div className="main-content">
-          <section className="stats" aria-label="Key performance indicators">
-            {[
-              ["Active Listing", "23", "-12%", "listing"],
-              ["Active Leads", "120", "+12%", "leads"],
-              ["Total Closed", "42", "+12%", "closed"],
-              ["Total Revenue", "Rs.22Cr.", "+12%", "revenue"],
-            ].map(([label, value, trend, icon]) => (
-              <article key={label} className="panel stat-card">
-                <div className="stat-label">
-                  <Icon name={`stat-${icon}`} />
-                  <h2>{label}</h2>
-                </div>
-                <div className="stat-value">
-                  <strong>{value}</strong>
-                  <span
-                    className={`trend ${trend[0] === "-" ? "negative" : ""}`}
-                  >
-                    {trend}
-                    <span aria-hidden="true">
-                      {trend[0] === "-" ? "↘" : "↗"}
+      {activeView === "Contacts" ? (
+        <ContactsView
+          globalQuery={query}
+          onClearQuery={() => setQuery("")}
+          inspect={inspect}
+          closeDialog={() => setModal(null)}
+        />
+      ) : (
+        <main id="dashboard" className="dashboard">
+          <h1 className="sr-only">Realtor360 real estate dashboard</h1>
+          <div className="main-content">
+            <section className="stats" aria-label="Key performance indicators">
+              {[
+                ["Active Listing", "23", "-12%", "listing"],
+                ["Active Leads", "120", "+12%", "leads"],
+                ["Total Closed", "42", "+12%", "closed"],
+                ["Total Revenue", "Rs.22Cr.", "+12%", "revenue"],
+              ].map(([label, value, trend, icon]) => (
+                <article key={label} className="panel stat-card">
+                  <div className="stat-label">
+                    <Icon name={`stat-${icon}`} />
+                    <h2>{label}</h2>
+                  </div>
+                  <div className="stat-value">
+                    <strong>{value}</strong>
+                    <span
+                      className={`trend ${trend[0] === "-" ? "negative" : ""}`}
+                    >
+                      {trend}
+                      <span aria-hidden="true">
+                        {trend[0] === "-" ? "↘" : "↗"}
+                      </span>
                     </span>
-                  </span>
-                </div>
-              </article>
-            ))}
-          </section>
-          <div className="charts-grid">
-            <LeadSource
-              onInspect={(title, detail) =>
-                inspect(
-                  title,
-                  <>
-                    <p>{detail}</p>
-                    <p className="detail-muted">
-                      Lead source figures reproduced from the supplied design.
-                    </p>
-                  </>,
-                )
-              }
-            />
-            <StageChart selected={development} onSelect={setDevelopment} />
-            <div className="sales-column">
-              <SalesChart selected={development} onSelect={setDevelopment} />
-              <Panel title="Total Deals Closed" className="closed-panel">
-                <div
-                  className="progress-track"
-                  role="meter"
-                  aria-label="Closed deals"
-                  aria-valuemin={0}
-                  aria-valuemax={174}
-                  aria-valuenow={42}
-                >
-                  <div />
-                </div>
-                <div className="progress-summary">
-                  <span>
-                    <strong>42</strong> Closed Deals
-                  </span>
-                  <span>
-                    <strong>132</strong> On Progress
-                  </span>
-                </div>
-              </Panel>
-            </div>
-            <Panel
-              title="Deals in Pipeline by Development"
-              className="pipeline-panel"
-            >
-              <table>
-                <thead>
-                  <tr>
-                    <th>Development Name</th>
-                    <th>Record Count</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {[...developments]
-                    .sort((a, b) => b.count - a.count)
-                    .filter((d) => !development || d.name === development)
-                    .map((d) => (
-                      <tr key={d.name}>
-                        <td>
-                          <button
-                            onClick={() =>
-                              inspect(
-                                d.name,
-                                <p>
-                                  {d.count} {d.count === 1 ? "deal" : "deals"}{" "}
-                                  currently in the pipeline.
-                                </p>,
-                              )
-                            }
-                          >
-                            {d.name}
-                          </button>
-                        </td>
-                        <td>{d.count}</td>
-                      </tr>
-                    ))}
-                </tbody>
-              </table>
-              {development && (
-                <button
-                  className="text-button clear-filter"
-                  onClick={() => setDevelopment(null)}
-                >
-                  Clear development filter
-                </button>
-              )}
-            </Panel>
-          </div>
-          <div className="bottom-grid">
-            <div id="listings">
-              <Panel title="Active Listing" className="listing-panel">
-                <div
-                  className="table-scroll"
-                  tabIndex={0}
-                  role="region"
-                  aria-label="Property listings table"
-                >
-                  <table className="listing-table">
-                    <colgroup>
-                      <col className="property-col" />
-                      <col />
-                      <col />
-                      <col />
-                      <col className="leads-col" />
-                      <col className="views-col" />
-                      <col className="status-col" />
-                    </colgroup>
-                    <thead>
-                      <tr>
-                        {[
-                          "Property",
-                          "Type",
-                          "Units",
-                          "Price",
-                          "Active Leads",
-                          "Views",
-                          "Status",
-                        ].map((label) => {
-                          const key =
-                            label === "Property"
-                              ? "name"
-                              : label === "Units"
-                                ? "units"
-                                : label === "Views"
-                                  ? "views"
-                                  : null;
-                          return (
-                            <th
-                              key={label}
-                              aria-sort={
-                                key && sort?.key === key
-                                  ? sort.ascending
-                                    ? "ascending"
-                                    : "descending"
-                                  : undefined
+                  </div>
+                </article>
+              ))}
+            </section>
+            <div className="charts-grid">
+              <LeadSource
+                onInspect={(title, detail) =>
+                  inspect(
+                    title,
+                    <>
+                      <p>{detail}</p>
+                      <p className="detail-muted">
+                        Lead source figures reproduced from the supplied design.
+                      </p>
+                    </>,
+                  )
+                }
+              />
+              <StageChart selected={development} onSelect={setDevelopment} />
+              <div className="sales-column">
+                <SalesChart selected={development} onSelect={setDevelopment} />
+                <Panel title="Total Deals Closed" className="closed-panel">
+                  <div
+                    className="progress-track"
+                    role="meter"
+                    aria-label="Closed deals"
+                    aria-valuemin={0}
+                    aria-valuemax={174}
+                    aria-valuenow={42}
+                  >
+                    <div />
+                  </div>
+                  <div className="progress-summary">
+                    <span>
+                      <strong>42</strong> Closed Deals
+                    </span>
+                    <span>
+                      <strong>132</strong> On Progress
+                    </span>
+                  </div>
+                </Panel>
+              </div>
+              <Panel
+                title="Deals in Pipeline by Development"
+                className="pipeline-panel"
+              >
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Development Name</th>
+                      <th>Record Count</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {[...developments]
+                      .sort((a, b) => b.count - a.count)
+                      .filter((d) => !development || d.name === development)
+                      .map((d) => (
+                        <tr key={d.name}>
+                          <td>
+                            <button
+                              onClick={() =>
+                                inspect(
+                                  d.name,
+                                  <p>
+                                    {d.count} {d.count === 1 ? "deal" : "deals"}{" "}
+                                    currently in the pipeline.
+                                  </p>,
+                                )
                               }
                             >
-                              {key ? (
-                                <button onClick={() => sortBy(key)}>
-                                  {label}
-                                  {sort?.key === key
-                                    ? sort.ascending
-                                      ? " ↑"
-                                      : " ↓"
-                                    : ""}
-                                </button>
-                              ) : (
-                                label
-                              )}
-                            </th>
-                          );
-                        })}
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {filteredProperties.map((p) => (
-                        <tr key={p.id}>
-                          <td>
-                            <button
-                              className="property-name"
-                              onClick={() => showProperty(p)}
-                            >
-                              <Icon name={p.image} />
-                              <span>{p.name}</span>
+                              {d.name}
                             </button>
                           </td>
-                          <td>{p.type}</td>
-                          <td>{p.units}</td>
-                          <td>{p.price}</td>
-                          <td>
-                            <button
-                              className="lead-stack-button"
-                              onClick={() => openModule("Leads")}
-                              aria-label={`View ${p.leads + 2} leads for ${p.name}`}
-                            >
-                              <AvatarStack count={p.leads} />
-                            </button>
-                          </td>
-                          <td>{p.views}</td>
-                          <td>
-                            <span
-                              className={`status ${p.status === "Sold Out" ? "sold" : ""}`}
-                            >
-                              {p.status}
-                            </span>
-                          </td>
+                          <td>{d.count}</td>
                         </tr>
                       ))}
-                    </tbody>
-                  </table>
-                </div>
-                {!filteredProperties.length && (
-                  <p className="empty-state">
-                    No properties match “{query}”.{" "}
-                    <button
-                      className="text-button"
-                      onClick={() => setQuery("")}
-                    >
-                      Clear search
-                    </button>
-                  </p>
+                  </tbody>
+                </table>
+                {development && (
+                  <button
+                    className="text-button clear-filter"
+                    onClick={() => setDevelopment(null)}
+                  >
+                    Clear development filter
+                  </button>
                 )}
               </Panel>
             </div>
-            <Panel
-              title="Leads Contacts"
-              className="contacts-panel"
-              action={
-                <button
-                  className="expand-button"
-                  aria-label="View all contacts"
-                  onClick={() => openModule("Contacts")}
-                >
-                  ↗
-                </button>
-              }
-            >
-              <div className="contact-list">
-                {filteredContacts.map((c) => (
-                  <div className="contact" key={c.name}>
-                    <button
-                      className="contact-person"
-                      onClick={() => showContact(c)}
-                    >
-                      <Icon name={c.image} />
-                      <span>
-                        {c.name}
-                        <small>{c.location}</small>
-                      </span>
-                    </button>
-                    <button
-                      className="call-button"
-                      aria-label={`Contact ${c.name}`}
-                      onClick={() => showContact(c)}
-                    >
-                      <Icon name="call" />
-                    </button>
+            <div className="bottom-grid">
+              <div id="listings">
+                <Panel title="Active Listing" className="listing-panel">
+                  <div
+                    className="table-scroll"
+                    tabIndex={0}
+                    role="region"
+                    aria-label="Property listings table"
+                  >
+                    <table className="listing-table">
+                      <colgroup>
+                        <col className="property-col" />
+                        <col />
+                        <col />
+                        <col />
+                        <col className="leads-col" />
+                        <col className="views-col" />
+                        <col className="status-col" />
+                      </colgroup>
+                      <thead>
+                        <tr>
+                          {[
+                            "Property",
+                            "Type",
+                            "Units",
+                            "Price",
+                            "Active Leads",
+                            "Views",
+                            "Status",
+                          ].map((label) => {
+                            const key =
+                              label === "Property"
+                                ? "name"
+                                : label === "Units"
+                                  ? "units"
+                                  : label === "Views"
+                                    ? "views"
+                                    : null;
+                            return (
+                              <th
+                                key={label}
+                                aria-sort={
+                                  key && sort?.key === key
+                                    ? sort.ascending
+                                      ? "ascending"
+                                      : "descending"
+                                    : undefined
+                                }
+                              >
+                                {key ? (
+                                  <button onClick={() => sortBy(key)}>
+                                    {label}
+                                    {sort?.key === key
+                                      ? sort.ascending
+                                        ? " ↑"
+                                        : " ↓"
+                                      : ""}
+                                  </button>
+                                ) : (
+                                  label
+                                )}
+                              </th>
+                            );
+                          })}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {filteredProperties.map((p) => (
+                          <tr key={p.id}>
+                            <td>
+                              <button
+                                className="property-name"
+                                onClick={() => showProperty(p)}
+                              >
+                                <Icon name={p.image} />
+                                <span>{p.name}</span>
+                              </button>
+                            </td>
+                            <td>{p.type}</td>
+                            <td>{p.units}</td>
+                            <td>{p.price}</td>
+                            <td>
+                              <button
+                                className="lead-stack-button"
+                                onClick={() => openModule("Leads")}
+                                aria-label={`View ${p.leads + 2} leads for ${p.name}`}
+                              >
+                                <AvatarStack count={p.leads} />
+                              </button>
+                            </td>
+                            <td>{p.views}</td>
+                            <td>
+                              <span
+                                className={`status ${p.status === "Sold Out" ? "sold" : ""}`}
+                              >
+                                {p.status}
+                              </span>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
                   </div>
+                  {!filteredProperties.length && (
+                    <p className="empty-state">
+                      No properties match “{query}”.{" "}
+                      <button
+                        className="text-button"
+                        onClick={() => setQuery("")}
+                      >
+                        Clear search
+                      </button>
+                    </p>
+                  )}
+                </Panel>
+              </div>
+              <Panel
+                title="Leads Contacts"
+                className="contacts-panel"
+                action={
+                  <button
+                    className="expand-button"
+                    aria-label="View all contacts"
+                    onClick={() => openModule("Contacts")}
+                  >
+                    ↗
+                  </button>
+                }
+              >
+                <div className="contact-list">
+                  {filteredContacts.map((c) => (
+                    <div className="contact" key={c.name}>
+                      <button
+                        className="contact-person"
+                        onClick={() => showContact(c)}
+                      >
+                        <Icon name={c.image} />
+                        <span>
+                          {c.name}
+                          <small>{c.location}</small>
+                        </span>
+                      </button>
+                      <button
+                        className="call-button"
+                        aria-label={`Contact ${c.name}`}
+                        onClick={() => showContact(c)}
+                      >
+                        <Icon name="call" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+                {!filteredContacts.length && (
+                  <p className="empty-state">No matching contacts.</p>
+                )}
+              </Panel>
+            </div>
+          </div>
+          <aside className="sidebar">
+            <Panel title="Reminder" className="reminders-panel">
+              <div className="reminder-list">
+                {reminders.map((r, index) => (
+                  <button
+                    className={`reminder ${index === 0 ? "featured" : ""} ${completed.includes(r.title) ? "completed" : ""}`}
+                    key={r.title}
+                    onClick={() =>
+                      inspect(
+                        r.title,
+                        <>
+                          <p>{r.description}</p>
+                          {index === 0 && (
+                            <div className="dialog-contact-list">
+                              {contacts.map((c) => (
+                                <button
+                                  key={c.name}
+                                  onClick={() => showContact(c)}
+                                >
+                                  <Icon name={c.image} />
+                                  <span>{c.name}</span>
+                                </button>
+                              ))}
+                            </div>
+                          )}
+                          <button
+                            className="primary-button"
+                            onClick={() => {
+                              setCompleted((current) =>
+                                current.includes(r.title)
+                                  ? current.filter((t) => t !== r.title)
+                                  : [...current, r.title],
+                              );
+                              setModal(null);
+                            }}
+                          >
+                            {completed.includes(r.title)
+                              ? "Mark as pending"
+                              : "Mark as complete"}
+                          </button>
+                        </>,
+                      )
+                    }
+                  >
+                    <span>
+                      {completed.includes(r.title) && (
+                        <span aria-label="Completed">✓ </span>
+                      )}
+                      {r.title}
+                    </span>
+                    <small>{r.description}</small>
+                    {index === 0 && <AvatarStack count={11} small />}
+                  </button>
                 ))}
               </div>
-              {!filteredContacts.length && (
-                <p className="empty-state">No matching contacts.</p>
-              )}
             </Panel>
-          </div>
-        </div>
-        <aside className="sidebar">
-          <Panel title="Reminder" className="reminders-panel">
-            <div className="reminder-list">
-              {reminders.map((r, index) => (
-                <button
-                  className={`reminder ${index === 0 ? "featured" : ""} ${completed.includes(r.title) ? "completed" : ""}`}
-                  key={r.title}
-                  onClick={() =>
-                    inspect(
-                      r.title,
-                      <>
-                        <p>{r.description}</p>
-                        {index === 0 && (
-                          <div className="dialog-contact-list">
-                            {contacts.map((c) => (
-                              <button
-                                key={c.name}
-                                onClick={() => showContact(c)}
-                              >
-                                <Icon name={c.image} />
-                                <span>{c.name}</span>
-                              </button>
-                            ))}
-                          </div>
-                        )}
-                        <button
-                          className="primary-button"
-                          onClick={() => {
-                            setCompleted((current) =>
-                              current.includes(r.title)
-                                ? current.filter((t) => t !== r.title)
-                                : [...current, r.title],
-                            );
-                            setModal(null);
-                          }}
-                        >
-                          {completed.includes(r.title)
-                            ? "Mark as pending"
-                            : "Mark as complete"}
-                        </button>
-                      </>,
-                    )
-                  }
-                >
-                  <span>
-                    {completed.includes(r.title) && (
-                      <span aria-label="Completed">✓ </span>
-                    )}
-                    {r.title}
-                  </span>
-                  <small>{r.description}</small>
-                  {index === 0 && <AvatarStack count={11} small />}
-                </button>
-              ))}
-            </div>
-          </Panel>
-          <Calendar onInspect={inspect} />
-        </aside>
-      </main>
-      {query && (
+            <Calendar onInspect={inspect} />
+          </aside>
+        </main>
+      )}
+      {query && activeView === "Home" && (
         <span className="sr-only" role="status">
           {filteredProperties.length} properties and {filteredContacts.length}{" "}
           contacts found.
