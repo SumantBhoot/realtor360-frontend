@@ -16,6 +16,7 @@ import {
   type FilterKey,
 } from "./contacts-data";
 import "./contacts.css";
+import useMediaQuery from "./useMediaQuery";
 
 type Inspector = (title: string, content: ReactNode) => void;
 const icon = (name: string) => (
@@ -172,7 +173,9 @@ export default function ContactsView({
   const [draft, setDraft] = useState<ContactFilters>(emptyFilters);
   const [filters, setFilters] = useState<ContactFilters>(emptyFilters);
   const [page, setPage] = useState(1);
-  const [view, setView] = useState<"table" | "cards">("table");
+  const isMobile = useMediaQuery("(max-width: 700px)");
+  const [view, setView] = useState<"table" | "cards" | null>(null);
+  const displayView = view ?? (isMobile ? "cards" : "table");
   const [openMenu, setOpenMenu] = useState<"view" | "actions" | null>(null);
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [sort, setSort] = useState<{
@@ -181,6 +184,37 @@ export default function ContactsView({
   } | null>(null);
   const [announcement, setAnnouncement] = useState("");
   const toolbar = useRef<HTMLDivElement>(null);
+  const filterPanel = useRef<HTMLElement>(null);
+  const filterToggle = useRef<HTMLButtonElement>(null);
+  useEffect(() => {
+    if (!filtersOpen || !isMobile) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    filterPanel.current
+      ?.querySelector<HTMLButtonElement>(".filter-close")
+      ?.focus();
+    const trapFocus = (event: KeyboardEvent) => {
+      if (event.key !== "Tab") return;
+      const controls =
+        filterPanel.current?.querySelectorAll<HTMLElement>("button, input");
+      if (!controls?.length) return;
+      const first = controls[0];
+      const last = controls[controls.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+    document.addEventListener("keydown", trapFocus);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      document.removeEventListener("keydown", trapFocus);
+      filterToggle.current?.focus();
+    };
+  }, [filtersOpen, isMobile]);
   useEffect(() => {
     try {
       localStorage.setItem(storageKey, JSON.stringify(created));
@@ -341,44 +375,67 @@ export default function ContactsView({
   };
   return (
     <main className="contacts-view" id="contacts-content">
+      {filtersOpen && isMobile && (
+        <button
+          className="filters-backdrop"
+          aria-label="Close contact filters"
+          tabIndex={-1}
+          onClick={() => setFiltersOpen(false)}
+        />
+      )}
       <aside
         className={`contacts-filters ${filtersOpen ? "is-open" : ""}`}
+        id="contact-filters"
+        ref={filterPanel}
         aria-label="Contact filters"
+        role={filtersOpen && isMobile ? "dialog" : undefined}
+        aria-modal={filtersOpen && isMobile ? true : undefined}
       >
-        <h2>Filters</h2>
-        <label className="contacts-name-search">
-          <span className="sr-only">Search by Contact Name</span>
-          <input
-            placeholder="Search by Contact Name"
-            value={nameSearch}
-            onChange={(e) => setNameSearch(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                setAppliedName(nameSearch);
-                setFilters(draft);
-                setPage(1);
-              }
-            }}
-          />
-          {icon("search-small")}
-        </label>
-        {filterGroups.map((group) => (
-          <fieldset key={group.key}>
-            <legend>{group.title}</legend>
-            <div className="filter-options">
-              {group.options.map((value) => (
-                <label key={value}>
-                  <input
-                    type="checkbox"
-                    checked={draft[group.key].includes(value)}
-                    onChange={() => toggle(group.key, value)}
-                  />
-                  <span>{value}</span>
-                </label>
-              ))}
-            </div>
-          </fieldset>
-        ))}
+        <div className="filter-heading">
+          <h2>Filters</h2>
+          <button
+            className="filter-close close-button"
+            aria-label="Close filters"
+            onClick={() => setFiltersOpen(false)}
+          >
+            ×
+          </button>
+        </div>
+        <div className="filter-fields">
+          <label className="contacts-name-search">
+            <span className="sr-only">Search by Contact Name</span>
+            <input
+              placeholder="Search by Contact Name"
+              value={nameSearch}
+              onChange={(e) => setNameSearch(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  setAppliedName(nameSearch);
+                  setFilters(draft);
+                  setPage(1);
+                }
+              }}
+            />
+            {icon("search-small")}
+          </label>
+          {filterGroups.map((group) => (
+            <fieldset key={group.key}>
+              <legend>{group.title}</legend>
+              <div className="filter-options">
+                {group.options.map((value) => (
+                  <label key={value}>
+                    <input
+                      type="checkbox"
+                      checked={draft[group.key].includes(value)}
+                      onChange={() => toggle(group.key, value)}
+                    />
+                    <span>{value}</span>
+                  </label>
+                ))}
+              </div>
+            </fieldset>
+          ))}
+        </div>
         <div className="filter-buttons">
           <button
             className="apply-filters"
@@ -405,8 +462,10 @@ export default function ContactsView({
           </button>
           <button
             className="contacts-filter-toggle"
+            ref={filterToggle}
             onClick={() => setFiltersOpen(!filtersOpen)}
             aria-expanded={filtersOpen}
+            aria-controls="contact-filters"
           >
             Filters
           </button>
@@ -441,7 +500,7 @@ export default function ContactsView({
                       setView("table");
                       setOpenMenu(null);
                     }}
-                    aria-pressed={view === "table"}
+                    aria-pressed={displayView === "table"}
                   >
                     Table view
                   </button>
@@ -450,7 +509,7 @@ export default function ContactsView({
                       setView("cards");
                       setOpenMenu(null);
                     }}
-                    aria-pressed={view === "cards"}
+                    aria-pressed={displayView === "cards"}
                   >
                     Card view
                   </button>
@@ -486,7 +545,7 @@ export default function ContactsView({
           </div>
         </div>
         <div className="contacts-results">
-          {view === "table" ? (
+          {displayView === "table" ? (
             <div
               className="contacts-table-scroll"
               tabIndex={0}
@@ -577,15 +636,24 @@ export default function ContactsView({
                   className="directory-card"
                   onClick={() => showContact(contact)}
                 >
-                  <strong>{contact.name}</strong>
+                  <span className="directory-card-heading">
+                    <strong>{contact.name}</strong>
+                    <span
+                      className={`directory-status ${statusClass(contact.status)}`}
+                    >
+                      {contact.status}
+                    </span>
+                  </span>
                   <span>{contact.email}</span>
                   <span>
                     {contact.company} · {contact.role}
                   </span>
-                  <span
-                    className={`directory-status ${statusClass(contact.status)}`}
-                  >
-                    {contact.status}
+                  <span className="directory-card-meta">
+                    <span>{contact.phone}</span>
+                    <span>{contact.stage}</span>
+                  </span>
+                  <span className="directory-card-assignee">
+                    Assigned to {contact.assignedTo}
                   </span>
                 </button>
               ))}

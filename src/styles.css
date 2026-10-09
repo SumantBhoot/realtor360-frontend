@@ -316,6 +316,15 @@ th {
   color: #2c2c2c;
   background: #f8f5eb;
 }
+.source-dot,
+.mobile-source-plot,
+.mobile-stage-chart,
+.mobile-listings {
+  display: none;
+}
+.source-detail {
+  display: block;
+}
 .source-label.inbound {
   left: 376px;
   top: 57px;
@@ -1139,6 +1148,23 @@ th {
   }
 }
 @media (max-width: 900px) {
+  .stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .stage-panel {
+    height: auto;
+    min-height: 334px;
+  }
+  .sales-column {
+    grid-template-rows: minmax(196px, auto) 128px;
+  }
+  .legend {
+    flex-wrap: wrap;
+  }
+  .reminders-panel {
+    height: auto;
+    min-height: 370px;
+  }
   .donut-plot {
     transform: scale(0.78);
     transform-origin: top left;
@@ -1185,224 +1211,6 @@ th {
   }
   .contact-person > span {
     font-size: 13px;
-  }
-  .calendar-heading h2 {
-    font-size: 28px;
-  }
-}
-@media (max-width: 700px) {
-  .topbar {
-    height: 66px;
-    padding: 0 16px;
-    gap: 12px;
-    flex-wrap: wrap;
-  }
-  .brand img {
-    width: 140px;
-    height: 30px;
-  }
-  .profile-wrapper {
-    margin-left: auto;
-  }
-  .search-box {
-    order: 5;
-    width: 100%;
-    height: 42px;
-    margin: 10px 0 0;
-  }
-  .topbar {
-    margin-bottom: 62px;
-  }
-  .mobile-nav {
-    top: 66px;
-    grid-template-columns: repeat(2, 1fr);
-  }
-  .dashboard {
-    padding: 0 14px 20px;
-    gap: 14px;
-  }
-  .stats {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 12px;
-    margin-bottom: 14px;
-  }
-  .stats .stat-label h2 {
-    font-size: 15px;
-  }
-  .stat-label img {
-    width: 38px;
-    height: 38px;
-  }
-  .stat-value strong {
-    font-size: 24px;
-  }
-  .stat-value {
-    gap: 14px;
-    margin-top: 10px;
-  }
-  .stat-card {
-    padding: 10px 12px;
-  }
-  .charts-grid {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 14px;
-  }
-  .lead-source,
-  .stage-panel {
-    height: 334px;
-  }
-  .donut-plot {
-    transform: none;
-    width: auto;
-    max-width: 491px;
-    margin-top: 9px;
-  }
-  .sales-column {
-    gap: 14px;
-    grid-template-rows: 196px 128px;
-  }
-  .pipeline-panel {
-    height: 230px;
-  }
-  .bottom-grid {
-    grid-template-columns: 1fr;
-    gap: 14px;
-    margin-top: 14px;
-  }
-  .contacts-panel {
-    height: auto;
-    min-height: 279px;
-    padding: 14px 18px;
-  }
-  .contact-list {
-    gap: 11px;
-  }
-  .contact-person > span {
-    font-size: 14px;
-  }
-  .contact-person {
-    gap: 10px;
-  }
-  .sidebar {
-    grid-template-columns: 1fr;
-    gap: 14px;
-  }
-  .reminders-panel {
-    height: 370px;
-  }
-  .calendar-panel {
-    min-height: 697px;
-  }
-  .calendar-heading h2 {
-    font-size: 30px;
-  }
-  .calendar-heading > div {
-    gap: 24px;
-  }
-  .legend {
-    gap: 22px;
-  }
-  .legend button {
-    font-size: 12px;
-  }
-  .panel h2 {
-    font-size: 18px;
-  }
-  .calendar-heading h2 {
-    font-size: 30px;
-  }
-  .listing-panel {
-    padding-left: 16px;
-  }
-  .listing-table {
-    min-width: 760px;
-  }
-  .contact-person small {
-    font-size: 11px;
-  }
-  .reminder-list {
-    gap: 14px;
-  }
-  .schedule-item {
-    padding-block: 10px;
-  }
-  .mobile-nav {
-    z-index: 11;
-  }
-  .calendar-grid {
-    grid-auto-rows: 30px;
-    min-height: 193px;
-  }
-  .calendar-panel {
-    height: auto;
-  }
-  .schedule {
-    padding-bottom: 18px;
-  }
-}
-@media (max-width: 530px) {
-  .donut-plot {
-    width: 491px;
-    transform: scale(0.82);
-    transform-origin: top left;
-    margin-top: 24px;
-  }
-  .lead-source {
-    overflow: hidden;
-  }
-  .stage-panel .legend {
-    gap: 16px;
-  }
-  .stat-label {
-    gap: 7px;
-  }
-  .stat-label h2 {
-    white-space: normal;
-  }
-  .stat-value {
-    gap: 10px;
-  }
-  .stat-value strong {
-    font-size: 23px;
-  }
-}
-@media (max-width: 400px) {
-  .donut-plot {
-    transform: scale(0.65);
-    margin-top: 38px;
-  }
-  .lead-source {
-    height: 300px;
-  }
-  .stats .stat-label h2 {
-    font-size: 14px;
-  }
-  .stat-label img {
-    width: 32px;
-    height: 32px;
-  }
-  .stat-value {
-    gap: 7px;
-  }
-  .stat-value strong {
-    font-size: 21px;
-  }
-  .legend {
-    gap: 14px;
-  }
-  .legend button {
-    font-size: 11px;
-  }
-  .stage-panel,
-  .sales-panel {
-    padding-inline: 12px;
-  }
-  .sales-panel h2 {
-    font-size: 15px;
-  }
-  .trend {
-    font-size: 10px;
-    padding-inline: 6px;
   }
   .calendar-heading h2 {
     font-size: 28px;
@@ -1460,11 +1268,6 @@ th {
 .reminder:nth-child(4) {
   margin-top: 4px;
 }
-@media (max-width: 700px) {
-  .calendar-grid {
-    padding-bottom: 13px;
-  }
-}
 /* Scale the plot as a unit so all four source labels remain visible on phones. */
 .donut-plot {
   width: 100%;
@@ -1501,61 +1304,456 @@ th {
     margin-top: 28px;
   }
 }
-@media (max-width: 700px) {
-  .donut-plot {
-    margin-top: 22px;
-  }
-  .lead-source {
-    height: auto;
-    min-height: 285px;
-    padding-bottom: 22px;
-  }
-}
-@media (max-width: 400px) {
-  .source-label {
-    font-size: 9px;
-    line-height: 11px;
-  }
-}
 .bottom-grid > div {
   min-width: 0;
 }
+/* Phone layouts use natural heights and readable charts instead of scaled text. */
 @media (max-width: 700px) {
+  .topbar {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    gap: 12px 8px;
+    height: auto;
+    padding: 12px 16px;
+  }
+  .brand {
+    grid-column: 1;
+    grid-row: 1;
+    justify-self: start;
+  }
+  .profile-wrapper {
+    min-width: 0;
+    grid-column: 2;
+    grid-row: 1;
+  }
+  .profile-button,
+  .mobile-toggle {
+    min-height: 44px;
+  }
+  .profile-button {
+    gap: 2px;
+  }
+  .mobile-toggle {
+    width: 44px;
+    font-size: 24px;
+    grid-column: 3;
+    grid-row: 1;
+  }
+  .search-box {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    width: 100%;
+    height: 44px;
+    margin: 0;
+    padding-inline: 12px;
+  }
+  .search-box input {
+    font-size: 16px;
+  }
+  .mobile-nav {
+    top: 100%;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    padding: 16px;
+    gap: 8px;
+    max-height: calc(100dvh - 124px);
+    overflow: auto;
+  }
+  .mobile-nav button {
+    min-height: 44px;
+  }
+  .mobile-nav .active {
+    color: #fff;
+    background: var(--gold);
+  }
+  .dashboard {
+    padding: 16px 14px 24px;
+    gap: 14px;
+  }
+  .panel {
+    border-radius: 16px;
+  }
+  .panel h2 {
+    font-size: 18px;
+    line-height: 24px;
+  }
+  .panel-heading h2 {
+    min-width: 0;
+  }
+  .stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+  .stat-card {
+    height: auto;
+    padding: 12px;
+  }
+  .stat-label {
+    gap: 8px;
+    min-height: 40px;
+    white-space: normal;
+  }
+  .stats .stat-label h2 {
+    font-size: 14px;
+    line-height: 20px;
+    overflow-wrap: anywhere;
+  }
+  .stat-label img {
+    width: 30px;
+    height: 30px;
+  }
+  .stat-value {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    margin-top: 8px;
+  }
+  .stat-value strong {
+    font-size: 23px;
+    line-height: 28px;
+  }
+  .trend {
+    font-size: 11px;
+    padding-inline: 7px;
+  }
+  .charts-grid,
   .bottom-grid,
   .sidebar {
     grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
   }
-}
-@media (max-width: 700px) {
-  .sales-column {
-    grid-template-rows: minmax(196px, auto) 128px;
+  .bottom-grid {
+    margin-top: 14px;
   }
-  .sales-panel {
+  .lead-source,
+  .stage-panel,
+  .sales-panel,
+  .closed-panel,
+  .pipeline-panel,
+  .listing-panel,
+  .contacts-panel,
+  .reminders-panel {
     height: auto;
-    min-height: 196px;
+    min-height: 0;
+    padding: 16px;
   }
-  .stage-panel {
-    height: auto;
-    min-height: 334px;
-    padding-bottom: 16px;
+  .donut-plot {
+    aspect-ratio: auto;
+    padding-top: 216px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    margin-top: 16px;
   }
-}
-@media (max-width: 360px) {
-  .stat-card {
-    height: 120px;
+  .donut-plot > img {
+    width: 200px;
+    height: 200px;
+    left: 50%;
+    top: 0;
+    transform: translateX(-50%);
   }
-  .stat-value {
+  .donut-plot > .desktop-source-plot {
+    display: none;
+  }
+  .donut-plot > .mobile-source-plot {
+    display: block;
+  }
+  .source-label.inbound,
+  .source-label.reference,
+  .source-label.website,
+  .source-label.facebook {
+    position: static;
+    padding: 8px;
+    text-align: left;
+    background: #f6f8fa;
+    font-size: 12px;
+    line-height: 17px;
+    min-height: 48px;
+    border-radius: 8px;
+  }
+  .source-name {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #2c2c2c;
+  }
+  .source-dot {
+    display: block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .source-detail {
+    padding-left: 16px;
+    font-size: 11px;
+  }
+  .stage-chart {
+    display: none;
+  }
+  .mobile-stage-chart {
+    display: grid;
+    gap: 14px;
+    margin-block: 20px 12px;
+  }
+  .mobile-stage-row > div:first-child {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 6px;
+    font-size: 12px;
+    line-height: 17px;
+    color: #666;
+  }
+  .mobile-stage-track {
+    display: flex;
+    height: 12px;
+    background: #f6f8fa;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .legend {
     flex-wrap: wrap;
+    gap: 0 10px;
+  }
+  .legend button {
+    min-height: 44px;
+    font-size: 12px;
+    gap: 5px;
+  }
+  .legend button > span {
+    width: 12px;
+    height: 12px;
+    flex-shrink: 0;
+  }
+  .stage-panel .legend,
+  .sales-panel .legend {
+    margin: 0;
+  }
+  .sales-column {
+    grid-template-rows: auto auto;
+    gap: 14px;
+  }
+  .sales-chart {
+    height: auto;
+    margin-block: 18px 8px;
+  }
+  .sales-chart text {
+    font-size: 18px;
+  }
+  .progress-summary {
+    gap: 12px;
+    flex-wrap: wrap;
+    line-height: 28px;
+  }
+  .progress-summary > span {
     gap: 4px;
-    margin-top: 6px;
   }
-  .stat-value strong {
-    font-size: 20px;
+  .progress-summary strong {
+    font-size: 22px;
   }
-  .stage-panel .legend {
+  .pipeline-panel table {
+    margin-top: 16px;
+    font-size: 12px;
+  }
+  .pipeline-panel td {
+    height: 44px;
+  }
+  .pipeline-panel td button {
+    min-height: 44px;
+  }
+  .listing-panel .table-scroll {
+    display: none;
+  }
+  .mobile-listings {
+    display: grid;
+    gap: 12px;
+    margin-top: 12px;
+  }
+  .mobile-listing-sort {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: #666;
+  }
+  .mobile-listing-sort button {
+    padding-inline: 8px;
+    min-height: 44px;
+    border-radius: 6px;
+    background: #f6f8fa;
+  }
+  .mobile-listing-sort button[aria-pressed="true"] {
+    color: #80620b;
+    background: #f8f5eb;
+  }
+  .mobile-listing {
+    padding-top: 14px;
+    border-top: 1px solid #eee;
+    min-width: 0;
+  }
+  .mobile-property {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-align: left;
+    width: 100%;
+    min-height: 48px;
+  }
+  .mobile-property img {
+    width: 44px;
+    height: 44px;
+    border-radius: 8px;
+  }
+  .mobile-property > span {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+  .mobile-property strong {
+    font-size: 14px;
+    font-weight: 500;
+  }
+  .mobile-property small {
+    display: block;
+    font-size: 12px;
+    color: #666;
+    margin-top: 5px;
+  }
+  .mobile-listing-summary,
+  .mobile-listing-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+  }
+  .mobile-listing-summary > strong {
+    font-size: 16px;
+    font-weight: 500;
+  }
+  .mobile-listing-meta {
+    margin-top: 0;
+    font-size: 12px;
+    color: #666;
+  }
+  .mobile-listing-meta button {
+    min-height: 44px;
+    color: #80620b;
+  }
+  .contact-list {
+    gap: 12px;
+    margin-top: 16px;
+  }
+  .contact-person {
     gap: 10px;
+    min-height: 44px;
   }
-  .stage-panel .legend button {
-    font-size: 10px;
+  .contact-person > span {
+    font-size: 14px;
+    white-space: normal;
+  }
+  .contact-person small {
+    font-size: 12px;
+    line-height: 17px;
+  }
+  .call-button,
+  .expand-button {
+    width: 44px;
+    height: 44px;
+  }
+  .contacts-panel .panel-heading {
+    height: auto;
+  }
+  .reminder-list {
+    margin-top: 12px;
+    gap: 12px;
+  }
+  .reminder.featured {
+    height: auto;
+    min-height: 81px;
+  }
+  .reminder:nth-child(4) {
+    margin-top: 0;
+  }
+  .reminder small,
+  .schedule-item small {
+    line-height: 18px;
+    margin-top: 3px;
+    overflow-wrap: anywhere;
+  }
+  .calendar-panel {
+    min-height: 0;
+    height: auto;
+  }
+  .calendar-heading {
+    padding: 16px;
+    gap: 8px;
+    min-height: 0;
+    align-items: center;
+  }
+  .calendar-heading h2 {
+    font-size: 26px;
+    line-height: 32px;
+  }
+  .calendar-heading > div {
+    gap: 4px;
+    margin: 0;
+  }
+  .calendar-heading button {
+    width: 44px;
+    height: 44px;
+    display: grid;
+    place-items: center;
+  }
+  .calendar-grid {
+    grid-auto-rows: 40px;
+    min-height: 0;
+    padding: 0 12px 12px;
+  }
+  .calendar-grid > span,
+  .calendar-grid > .day {
+    font-size: 13px;
+  }
+  .day > span {
+    min-width: 24px;
+    height: 24px;
+  }
+  .schedule {
+    padding: 16px;
+  }
+  .schedule-item {
+    padding: 12px;
+    line-height: 20px;
+    overflow-wrap: anywhere;
+  }
+  .text-button {
+    min-height: 44px;
+  }
+  .detail-dialog {
+    width: min(520px, calc(100% - 24px));
+    padding: 20px;
+    max-height: calc(100dvh - 24px);
+    overflow: auto;
+  }
+  .dialog-header {
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .dialog-header h2,
+  .dialog-body {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+  .close-button {
+    width: 44px;
+    height: 44px;
+  }
+  .property-detail {
+    flex-wrap: wrap;
+  }
+  .property-detail strong {
+    font-size: 22px;
   }
 }

@@ -30,9 +30,9 @@ Original source assets are stored locally, with original geometry and dependent 
 
 Schedule accents match the SVG's 2 px inset shadows: visits `#0eeabe`, follow-ups `#e192ad`, and offers `#ffe100`. The closed-deals progress endpoint uses the SVG's straight dash segments and two endpoint dots rather than a dashed border around the rounded fill.
 
-Desktop and mobile screenshots: [desktop](desktop-preview.jpg), [mobile](mobile-preview.jpg).
+Desktop and mobile screenshots: [desktop](desktop-preview.jpg), [mobile Home](mobile-preview.jpg), [mobile Contacts](contacts-mobile-preview.jpg).
 
-Screenshots refreshed after the calendar and visual refinements: Home at 1440 × 1182, Contacts at 1440 × 1144, and the mobile dashboard in a 390 px wide viewport. Fonts and images finished loading before capture.
+Desktop previews show Home at 1440 × 1182 and Contacts at 1440 × 1144. Mobile previews were refreshed on October 10, 2026, after the mobile layout fixes described below. Fonts and images finished loading before capture.
 
 ## Functional browser checks
 
@@ -63,6 +63,30 @@ Status badge outlines retain the source's 1 px border and add a matching 0.5 px 
 - At 320, 390, and 768 px viewport widths, the document has no horizontal overflow. The table scrolls independently. Mobile filters open, apply Buyer (three matches), reset, and dismiss with Escape.
 
 Screenshot: [Contacts desktop](contacts-preview.jpg).
+
+## Mobile refinements — October 10, 2026
+
+- The mobile header now reserves explicit grid positions for the logo, profile, menu, and full-width search. Metric cards have equal heights at narrow widths, with trend badges on a consistent second line.
+- Lead source annotations use a readable two-column legend. The mobile donut preserves the original four SVG segments and omits desktop annotation arrows. Stage labels use horizontal bars on phones; chart legends wrap and have larger touch targets.
+- Phone property cards expose type, units, price, status, lead count, and views. Name, Units, and Views controls retain the table's sorting behavior. Contacts automatically uses cards at widths up to 700 px and switches back to its table above that breakpoint unless the user explicitly chooses a view.
+- Contact search and toolbar controls occupy separate rows. The mobile filter panel locks background scrolling, keeps its close/apply/reset buttons visible, scrolls the fields independently, traps keyboard focus, and restores focus when dismissed. Inputs and selects use 16 px text on phones, and dialogs wrap long content within the viewport.
+- Home was checked at 320, 375, 390, 430, 700, 701, 768, 900, 1024, and 1440 px. Contacts was checked at 320, 390, 700, 701, 768, 1024, and 1440 px. Neither route has document overflow. Phone cards and chart contents fit their panels; desktop/tablet tables retain contained horizontal scrolling.
+- All 13 Home cards retain the desktop rectangles recorded above at 1440 × 1182. Contacts still uses the desktop table and sidebar at 1440 × 1144.
+- At 320 px, Views sorting returned Maplewood House, Rosehill Cottage, Skyline Edge, and Serenity Villa. Selecting Angel Plaza updated the stage bars and left one pipeline row. The Serenity Villa dialog stayed within the viewport with no internal horizontal overflow. All twelve month titles from July 2025 through June 2026 fit without overlapping the calendar arrows, and mobile navigation exposed all 11 destinations.
+- Applying Buyer filters returned the expected three contact cards and restored body scrolling and focus to the filter toggle.
+- At 320 px, normal keyboard interactions confirmed that the filter panel locks body scrolling, Shift+Tab/Tab wrap between its first and last controls, and Escape closes the panel and restores focus. The optional table and display dropdown stay inside the viewport. The ten-field creation form fits the dialog without horizontal overflow.
+- The favicon reuses the bundled listing icon, resolving the browser's missing favicon request.
+- TypeScript validation, the production build, and verification of all 37 SVG assets passed.
+
+Updated screenshots (CSS viewport dimensions, device pixel ratio 1):
+
+| View                   | Viewport  | Screenshot                                              |
+| ---------------------- | --------- | ------------------------------------------------------- |
+| Home                   | 390 × 844 | [Full mobile Home](mobile-preview.jpg)                  |
+| Home, narrow phone     | 320 × 740 | [Full narrow Home](mobile-320-preview.jpg)              |
+| Contacts               | 390 × 844 | [Full mobile Contacts](contacts-mobile-preview.jpg)     |
+| Contacts, narrow phone | 320 × 740 | [Full narrow Contacts](contacts-mobile-320-preview.jpg) |
+| Contact filters        | 390 × 844 | [Filter panel](contacts-mobile-filters-preview.jpg)     |
 
 ## Fidelity limits
 

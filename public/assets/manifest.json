@@ -365,5 +365,15 @@
       16,
       16
     ]
+  },
+  {
+    "file": "lead-source-mobile.svg",
+    "figmaLayer": "charts (original ring paths)",
+    "viewBox": [
+      179,
+      262,
+      230,
+      230
+    ]
   }
 ]

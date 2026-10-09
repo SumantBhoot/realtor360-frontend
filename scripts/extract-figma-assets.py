@@ -65,5 +65,13 @@ for filename, (node_id, (x, y, w, h)) in specs.items():
     destination = ROOT / 'public/assets' / f'{filename}.svg'
     ET.ElementTree(svg).write(destination, encoding='utf-8', xml_declaration=True)
     manifest.append({'file':f'{filename}.svg','figmaLayer':node_id,'viewBox':[x,y,w,h]})
+# Preserve the original ring paths without the desktop annotation arrows on phones.
+mobile_ring = ET.Element(f'{{{NS}}}svg', {'width':'230', 'height':'230', 'viewBox':'179 262 230 230', 'fill':'none'})
+for path in nodes['charts'].iter(f'{{{NS}}}path'):
+    if path.get('id') in {'vector', 'vector_2', 'vector_3', 'vector_4'}:
+        mobile_ring.append(copy.deepcopy(path))
+assert len(mobile_ring) == 4, 'Expected four original lead source segments'
+ET.ElementTree(mobile_ring).write(ROOT / 'public/assets/lead-source-mobile.svg', encoding='utf-8', xml_declaration=True)
+manifest.append({'file':'lead-source-mobile.svg', 'figmaLayer':'charts (original ring paths)', 'viewBox':[179,262,230,230]})
 (ROOT / 'public/assets/manifest.json').write_text(json.dumps(manifest, indent=2))
 print(f'Exported {len(manifest)} original Figma assets.')

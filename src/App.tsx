@@ -147,24 +147,47 @@ function LeadSource({
   onInspect: (label: string, detail: string) => void;
 }) {
   const labels = [
-    { name: "Inbound Call", detail: "9 (37.87%)", className: "inbound" },
-    { name: "Reference", detail: "1 (30.6%)", className: "reference" },
-    { name: "Website", detail: "10 (24.83%)", className: "website" },
-    { name: "Facebook", detail: "1 (6.78%)", className: "facebook" },
+    {
+      name: "Inbound Call",
+      detail: "9 (37.87%)",
+      className: "inbound",
+      color: "#f6efd7",
+    },
+    {
+      name: "Reference",
+      detail: "1 (30.6%)",
+      className: "reference",
+      color: "#d4af37",
+    },
+    {
+      name: "Website",
+      detail: "10 (24.83%)",
+      className: "website",
+      color: "#eedfaf",
+    },
+    {
+      name: "Facebook",
+      detail: "1 (6.78%)",
+      className: "facebook",
+      color: "#ebd17d",
+    },
   ];
   return (
     <Panel title="Deals by Lead Source" className="lead-source">
       <div className="donut-plot">
-        <Icon name="lead-source" />
+        <Icon name="lead-source" className="desktop-source-plot" />
+        <Icon name="lead-source-mobile" className="mobile-source-plot" />
         {labels.map((l) => (
           <button
             key={l.name}
             className={`source-label ${l.className}`}
             onClick={() => onInspect(l.name, l.detail)}
           >
-            {l.name}
-            <br />
-            {l.detail}
+            <span className="source-name">
+              <span className="source-dot" style={{ background: l.color }} />
+              {l.name}
+            </span>
+            <span className="source-detail">{l.detail}</span>
           </button>
         ))}
       </div>
@@ -283,6 +306,45 @@ function StageChart({
         </svg>
         {tooltip && <output className="chart-tooltip">{tooltip}</output>}
         <span className="stage-axis-label">Stage</span>
+      </div>
+      <div className="mobile-stage-chart" aria-label="Deals by stage">
+        {stages.map((stage, i) => {
+          const segments = [
+            bottom[i],
+            middle[i] - bottom[i],
+            total[i] - middle[i],
+          ];
+          const count = selected
+            ? segments[developments.findIndex((d) => d.name === selected)]
+            : total[i];
+          return (
+            <div
+              className="mobile-stage-row"
+              key={stage}
+              role="img"
+              aria-label={`${stage}: ${Number(count.toFixed(2))} records${selected ? ` for ${selected}` : ""}`}
+            >
+              <div>
+                <span>{stage}</span>
+                <span>{Number(count.toFixed(2))}</span>
+              </div>
+              <div className="mobile-stage-track">
+                {developments.map(
+                  (development, index) =>
+                    (!selected || selected === development.name) && (
+                      <span
+                        key={development.name}
+                        style={{
+                          width: `${segments[index] * 10}%`,
+                          background: development.color,
+                        }}
+                      />
+                    ),
+                )}
+              </div>
+            </div>
+          );
+        })}
       </div>
       <Legend selected={selected} onSelect={onSelect} />
     </Panel>
@@ -789,16 +851,28 @@ export default function App() {
         </div>
         <button
           className="mobile-toggle"
-          aria-label="Open navigation"
+          aria-label={
+            menu === "mobile" ? "Close navigation" : "Open navigation"
+          }
           aria-expanded={menu === "mobile"}
+          aria-controls="mobile-navigation"
           onClick={() => setMenu(menu === "mobile" ? null : "mobile")}
         >
-          ☰
+          {menu === "mobile" ? "×" : "☰"}
         </button>
         {menu === "mobile" && (
-          <nav className="mobile-nav" aria-label="Mobile navigation">
+          <nav
+            id="mobile-navigation"
+            className="mobile-nav"
+            aria-label="Mobile navigation"
+          >
             {nav.map((n) => (
-              <button key={n} onClick={() => openModule(n)}>
+              <button
+                key={n}
+                className={n === activeView ? "active" : ""}
+                aria-current={n === activeView ? "page" : undefined}
+                onClick={() => openModule(n)}
+              >
                 {n}
               </button>
             ))}
@@ -1055,6 +1129,71 @@ export default function App() {
                         ))}
                       </tbody>
                     </table>
+                  </div>
+                  <div
+                    className="mobile-listings"
+                    aria-label="Property listings"
+                  >
+                    <div
+                      className="mobile-listing-sort"
+                      aria-label="Sort property listings"
+                    >
+                      <span>Sort by</span>
+                      {(
+                        [
+                          ["name", "Name"],
+                          ["units", "Units"],
+                          ["views", "Views"],
+                        ] as const
+                      ).map(([key, label]) => (
+                        <button
+                          key={key}
+                          onClick={() => sortBy(key)}
+                          aria-pressed={sort?.key === key}
+                        >
+                          {label}
+                          {sort?.key === key
+                            ? sort.ascending
+                              ? " ↑"
+                              : " ↓"
+                            : ""}
+                        </button>
+                      ))}
+                    </div>
+                    {filteredProperties.map((property) => (
+                      <article className="mobile-listing" key={property.id}>
+                        <button
+                          className="mobile-property"
+                          onClick={() => showProperty(property)}
+                        >
+                          <Icon name={property.image} />
+                          <span>
+                            <strong>{property.name}</strong>
+                            <small>
+                              {property.type} ·{" "}
+                              {property.units.toLocaleString("en-IN")} units
+                            </small>
+                          </span>
+                        </button>
+                        <div className="mobile-listing-summary">
+                          <strong>{property.price}</strong>
+                          <span
+                            className={`status ${property.status === "Sold Out" ? "sold" : ""}`}
+                          >
+                            {property.status}
+                          </span>
+                        </div>
+                        <div className="mobile-listing-meta">
+                          <button
+                            onClick={() => openModule("Leads")}
+                            aria-label={`View ${property.leads + 2} leads for ${property.name}`}
+                          >
+                            {property.leads + 2} active leads
+                          </button>
+                          <span>{property.views} views</span>
+                        </div>
+                      </article>
+                    ))}
                   </div>
                   {!filteredProperties.length && (
                     <p className="empty-state">

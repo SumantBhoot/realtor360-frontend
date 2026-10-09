@@ -6,7 +6,7 @@ A responsive React + TypeScript implementation of the Realtor360 **Home and Cont
 
 ![Realtor360 contacts](docs/contacts-preview.jpg)
 
-[Mobile dashboard preview](docs/mobile-preview.jpg)
+[Mobile dashboard preview](docs/mobile-preview.jpg) · [Mobile contacts preview](docs/contacts-mobile-preview.jpg)
 
 ## Run locally
 
@@ -39,18 +39,18 @@ The production output is in `dist/` and can be served by any static web host. Fo
 - Inter is used for the dashboard; Manrope for navigation. The gold accent is `#D4AF37`, with the original pale chart colors and `#F6F8FA` page background.
 - Original SVG logo, metric icons, chart artwork, portrait crops, and property thumbnails are preserved from the view-only Figma export. `public/assets/manifest.json` maps each asset to its source layer and bounds.
 - The page uses CSS Grid and Flexbox, semantic HTML tables, live text, and React components. The reference screenshot is not used as the page implementation.
-- Smaller screens use a collapsible navigation menu and stacked cards. Wide listing tables scroll inside their card. Responsive arrangements are inferred because only a desktop screen was supplied.
+- Phones use a two-row header, consistent metric cards, readable stage bars, and property/contact cards that expose details without horizontal scrolling. Contacts still offers an optional table view. Tablet tables scroll inside their cards. Responsive arrangements are inferred because only desktop screens were supplied.
 
 ## Working interactions
 
 - Search filters both property listings and contacts, including empty states.
-- Property, unit-count, and view-count column headings sort the listing table.
+- Property, unit-count, and view-count column headings sort the listing table; phone cards provide the same sorting controls.
 - Property and contact buttons open accessible dialogs; Escape and the close button dismiss them.
 - Development legends filter both charts and the pipeline table, with a clear-filter action.
 - Calendar arrows change months, including year boundaries. Selecting an event date filters the schedule; **Show all** restores the month overview.
 - Reminders can be marked complete and pending. Completion persists in browser local storage and can be reset from the profile menu.
 - Navigation opens relevant demo data panels or takes the user to the listing table.
-- Contacts provides name and global search, combined checkbox filters, sortable columns, table/card views, detail dialogs, CSV export, pagination, and a validated creation form. Created contacts persist in local browser storage.
+- Contacts provides name and global search, combined checkbox filters, sortable columns, table/card views, detail dialogs, CSV export, pagination, and a validated creation form. Mobile filters have a scrollable field area, persistent action buttons, close controls, and keyboard focus management. Created contacts persist in local browser storage.
 
 ## Scope and data
 
@@ -69,6 +69,7 @@ src/styles.css        Layout, design tokens, and responsive styles
 src/ContactsView.tsx  Contacts screen and interactions
 src/contacts-data.ts  Typed contact records and filter options
 src/contacts.css      Contacts layout and responsive styles
+src/useMediaQuery.ts  Responsive view selection with resize support
 src/main.tsx          React entry point and bundled fonts
 public/assets/        Original Figma assets and provenance manifest
 scripts/              Asset extraction and integrity verification
@@ -77,6 +78,6 @@ docs/                 Verification notes and rendered screenshots
 
 See [verification notes](docs/verification.md) for the checks performed and fidelity limitations.
 
-To reproduce the asset extraction, export both screens from Figma as SVG with **Include id attribute** enabled and **Outline text** disabled. Save them as `design-reference/home.svg` and `design-reference/contacts.svg`. Run `python scripts/extract-figma-assets.py`, followed by `python scripts/extract-contacts-assets.py`. These produce 36 local design assets and their provenance manifest. Reference exports are intentionally excluded from version control.
+To reproduce the asset extraction, export both screens from Figma as SVG with **Include id attribute** enabled and **Outline text** disabled. Save them as `design-reference/home.svg` and `design-reference/contacts.svg`. Run `python scripts/extract-figma-assets.py`, followed by `python scripts/extract-contacts-assets.py`. These produce 36 original design assets plus a mobile donut variant made from the original four ring paths, and their provenance manifest. Reference exports are intentionally excluded from version control.
 
 Design and supplied imagery remain the property of their respective owners. No redistribution license is inferred from access to the reference file.
