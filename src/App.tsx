@@ -868,7 +868,33 @@ export default function App() {
                     aria-valuemax={174}
                     aria-valuenow={42}
                   >
-                    <div />
+                    <div>
+                      <svg
+                        className="progress-marker"
+                        viewBox="0 0 3 49"
+                        aria-hidden="true"
+                        focusable="false"
+                      >
+                        <circle
+                          cx="1.5"
+                          cy="1.5"
+                          r="1"
+                          fill="currentColor"
+                          stroke="currentColor"
+                        />
+                        <path
+                          d="M1.5 3V5.687M1.5 46V43.312M1.5 11.062V16.437M1.5 21.812V27.187M1.5 32.562V37.937"
+                          stroke="currentColor"
+                        />
+                        <circle
+                          cx="1.5"
+                          cy="47.5"
+                          r="1"
+                          fill="currentColor"
+                          stroke="currentColor"
+                        />
+                      </svg>
+                    </div>
                   </div>
                   <div className="progress-summary">
                     <span>

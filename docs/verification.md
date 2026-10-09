@@ -28,7 +28,11 @@ At a 1440 × 1182 browser viewport, measured DOM rectangles match the exported f
 
 Original source assets are stored locally, with original geometry and dependent SVG definitions preserved. All visible images loaded successfully. Font loading was confirmed before the final screenshots. No browser console warnings or errors were recorded during interaction checks.
 
+Schedule accents match the SVG's 2 px inset shadows: visits `#0eeabe`, follow-ups `#e192ad`, and offers `#ffe100`. The closed-deals progress endpoint uses the SVG's straight dash segments and two endpoint dots rather than a dashed border around the rounded fill.
+
 Desktop and mobile screenshots: [desktop](desktop-preview.jpg), [mobile](mobile-preview.jpg).
+
+Screenshots refreshed after the calendar and visual refinements: Home at 1440 × 1182, Contacts at 1440 × 1144, and the mobile dashboard in a 390 px wide viewport. Fonts and images finished loading before capture.
 
 ## Functional browser checks
 
@@ -37,6 +41,7 @@ Desktop and mobile screenshots: [desktop](desktop-preview.jpg), [mobile](mobile-
 - Sorting by Views produces Maplewood House, Rosehill Cottage, Skyline Edge, Serenity Villa in ascending order.
 - Selecting Angel Plaza in a chart legend updates both legends and leaves only the Angel Plaza pipeline row with 3 records; clearing restores all rows.
 - Advancing the calendar shows August 2025 with an empty schedule; returning to July and selecting July 10 shows the two client visits. Show all restores the full schedule.
+- Calendar header regression: February previously clipped the next-month arrow at 1440 px. Longer month titles now wrap while both 28 px arrow buttons keep their space. Checked all 12 months at 320, 390, 768, 1150, 1151, 1280, 1350, 1366, 1440, and 1920 px; both arrows stay inside the card and viewport, and titles do not overlap the calendar grid.
 - Marking a reminder complete survives a page reload. Reset completed reminders restores the initial state.
 - Jessica Chen's contact dialog shows the supplied email and location.
 - Mobile navigation exposes all primary destinations and closes when a destination is chosen.
@@ -47,6 +52,8 @@ Desktop and mobile screenshots: [desktop](desktop-preview.jpg), [mobile](mobile-
 Reference: node `28:430`, 1440 × 1144, measured using view-only PNG/SVG exports.
 
 The browser matches the 296 px sidebar, toolbar at y=65 with height 111, table header at (334,197) with dimensions 1081 × 49, first row height 95, and seven subsequent rows of height 91. Row boundaries are y=341,432,523,614,705,796,887,978. Filter buttons start at (22,966), width 252. Pagination sits at y=1083. All images and local fonts loaded, with no console warnings or errors.
+
+Status badge outlines retain the source's 1 px border and add a matching 0.5 px inset stroke for the requested stronger appearance. Checked all five statuses at 1440 px; original colors and 25 px badge heights are preserved, with no width or height changes.
 
 - Searching Ananya returns two records; Active returns four; Active plus Buyer returns one (Ananya Verma). Reset restores all eight.
 - Global search for Ravi returns two records. Sorting Contact Name orders Ananya, Emily, John, Ravi.

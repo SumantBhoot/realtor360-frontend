@@ -6,6 +6,8 @@ A responsive React + TypeScript implementation of the Realtor360 **Home and Cont
 
 ![Realtor360 contacts](docs/contacts-preview.jpg)
 
+[Mobile dashboard preview](docs/mobile-preview.jpg)
+
 ## Run locally
 
 Requires Node.js 20.19+ or 22.12+ and npm.

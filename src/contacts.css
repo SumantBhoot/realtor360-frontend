@@ -286,12 +286,14 @@
   font-weight: 500;
 }
 .directory-status {
+  --status-border: #2c2c2c;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   height: 25px;
   padding: 0 16px;
-  border: 1px solid;
+  border: 1px solid var(--status-border);
+  box-shadow: inset 0 0 0 0.5px var(--status-border);
   border-radius: 5px;
   font-size: 14px;
   line-height: 17px;
@@ -301,27 +303,27 @@
 }
 .directory-status.active {
   background: #e9f7ef;
-  border-color: #0dd112;
+  --status-border: #0dd112;
   min-width: 76px;
 }
 .directory-status.in-progress {
   background: #fff9e6;
-  border-color: #f2c94c;
+  --status-border: #f2c94c;
   min-width: 109px;
 }
 .directory-status.cold {
   background: #f4f4f4;
-  border-color: #828282;
+  --status-border: #828282;
   min-width: 65px;
 }
 .directory-status.converted {
   background: #eaf4fb;
-  border-color: #2d9cdb;
+  --status-border: #2d9cdb;
   min-width: 104px;
 }
 .directory-status.not-interested {
   background: #fdeeee;
-  border-color: #eb5757;
+  --status-border: #eb5757;
   min-width: 130px;
 }
 .contacts-pagination {

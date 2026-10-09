@@ -434,24 +434,15 @@ th {
   width: 42.6%;
   border-radius: 10px;
   background: linear-gradient(90deg, #d4af37, #eee8cf);
-  border-right: 1px dashed #d4af37;
   position: relative;
 }
-.progress-track > div:after,
-.progress-track > div:before {
-  content: "";
+.progress-marker {
   position: absolute;
-  right: -2px;
+  left: calc(100% - 1px);
+  top: -3px;
   width: 3px;
-  height: 3px;
-  border-radius: 50%;
-  background: var(--gold);
-}
-.progress-track > div:before {
-  top: -2px;
-}
-.progress-track > div:after {
-  bottom: -2px;
+  height: calc(100% + 6px);
+  color: var(--gold);
 }
 .progress-summary {
   display: flex;
@@ -741,24 +732,27 @@ th {
   overflow: hidden;
 }
 .calendar-heading {
-  height: 82px;
-  padding: 18px 10px 0 17px;
+  min-height: 82px;
+  padding: 18px 10px 27px 17px;
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
   gap: 4px;
 }
 .calendar-heading h2 {
+  min-width: 0;
   font-size: 30px;
   line-height: 37px;
-  white-space: nowrap;
+  white-space: normal;
 }
 .calendar-heading > div {
   display: flex;
+  flex-shrink: 0;
   gap: 24px;
   margin-top: 3px;
 }
 .calendar-heading button {
+  flex-shrink: 0;
   width: 28px;
   height: 28px;
 }
@@ -837,20 +831,22 @@ th {
   margin-top: 15px;
 }
 .schedule-item {
+  --schedule-accent: #0eeabe;
   text-align: left;
   border-radius: 10px;
-  border-left: 1px solid #00d6ae;
+  background: white;
+  box-shadow: inset 2px 0 0 var(--schedule-accent);
   min-height: 50px;
-  padding: 9px 9px;
+  padding: 9px 9px 9px 10px;
   font-size: 14px;
   line-height: 17px;
   width: 100%;
 }
 .schedule-item.followup {
-  border-left-color: #fb7daf;
+  --schedule-accent: #e192ad;
 }
 .schedule-item.offer {
-  border-left-color: #ead300;
+  --schedule-accent: #ffe100;
 }
 .schedule-item small {
   display: block;
@@ -1125,9 +1121,6 @@ th {
   }
   .bottom-grid {
     grid-template-columns: minmax(0, 1fr) 258px;
-  }
-  .calendar-heading {
-    height: 82px;
   }
   .calendar-heading h2 {
     font-size: 30px;
